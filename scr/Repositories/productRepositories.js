@@ -92,7 +92,6 @@ const listProductPaginationRepository = async (name, offset, limit) => {
                                        LIMIT ${offset}, ${limit};`);                                       
         return result[0];
     } catch (error) {
-        console.log(error);
         return error;
     }
 };

@@ -105,10 +105,10 @@ const editTypeEquipamentController = async (req, res, next) => {
 
 const listEquipamentsController = async (req, res, next) => {
     const token = req.headers["x-access-token"];
-
+    const idUser = req.params.id;
     try {
         const response = await equipamentServices.listEquipamentsServices(
-            token
+            token, idUser
         );
         if (response.code > 0 && response.title === "Error") {
             const exception = new Error(response.message);

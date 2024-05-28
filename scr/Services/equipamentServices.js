@@ -1,6 +1,6 @@
 const { isNullOrEmpty, getInfoToken } = require("../Ultils/Ultils");
 
-const equipamentRepositories = require("../Repositories/equipamentoRepositories");
+const equipamentRepositories = require("../Repositories/equipmentRepositories");
 const { checkUserService } = require("./userServices");
 
 const registerService = async (data, token) => {
@@ -11,7 +11,6 @@ const registerService = async (data, token) => {
         const infoToken = getInfoToken(token);
         if (
             isNullOrEmpty(infoToken.idUsuario) ||
-            infoToken.idUsuario === 3 ||
             checkUserService(token) === false
         ) {
             const exception = new Error("Usuário vazio ou não tem permissão");
@@ -53,10 +52,13 @@ const registerService = async (data, token) => {
             noFrota: data.noFrota,
             activeEquipment: data.activeEquipment,
             idTypeEquipment: data.idTypeEquipment,
-            idSectorEquipment: data.idSectorEquipment
+            idSectorEquipment: data.idSectorEquipment,
         };
 
-        const db = await equipamentRepositories.registerRepository(newEquipment);
+        const db = await equipamentRepositories.registerRepository(
+            newEquipment,
+            infoToken.idUsuario
+        );
 
         if (isNullOrEmpty(db)) {
             const exception = new Error(
@@ -88,10 +90,7 @@ const editSevice = async (token, data, idEquipment) => {
 
         const infoToken = getInfoToken(token);
 
-        if (
-            isNullOrEmpty(infoToken.idUsuario) ||
-            infoToken.idTipoUsuario === 3
-        ) {
+        if (isNullOrEmpty(infoToken.idUsuario)) {
             const exception = new Error("Usuário vazio ou não tem permissão");
             exception.code = 403;
             throw exception;
@@ -121,7 +120,7 @@ const editSevice = async (token, data, idEquipment) => {
             activeEquipment: data.activeEquipment,
             idTypeEquipment: data.idTypeEquipment,
             idSectorEquipment: data.idSectorEquipment,
-            idEquipment: idEquipment
+            idEquipment: idEquipment,
         };
 
         const db = await equipamentRepositories.editRepository(uptEquipment);
@@ -182,8 +181,10 @@ const registerTypeEquipamentService = async (data, token) => {
             nameTypeEquipment: data.nameTypeEquipment,
         };
 
-        const db = await equipamentRepositories.registerTypeEquipamentRepository(newTypeEquipment);
-        console.log(db);
+        const db =
+            await equipamentRepositories.registerTypeEquipamentRepository(
+                newTypeEquipment
+            );
         if (db.length === 0) {
             const exception = new Error(
                 "Não foi possivel realizar o cadastro." + db.message
@@ -246,7 +247,9 @@ const editTypeEquipamentSevice = async (token, data, idTypeEquipment) => {
             idTypeEquipment: idTypeEquipment,
         };
 
-        const db = await equipamentRepositories.editTypeEquipamentRepository(uptTypeEquipment);
+        const db = await equipamentRepositories.editTypeEquipamentRepository(
+            uptTypeEquipment
+        );
 
         if (isNullOrEmpty(db[0])) {
             const exception = new Error("Não foi possivel realizar a edição.");
@@ -265,22 +268,26 @@ const editTypeEquipamentSevice = async (token, data, idTypeEquipment) => {
     }
 };
 
-const listEquipamentsServices = async (token) => {
+const listEquipamentsServices = async (token, idUser) => {
     try {
         let infoToken = getInfoToken(token);
 
         if (
-            isNullOrEmpty(infoToken.idUsuario) || // verificiacaoUserservice(token) == false ||
-            infoToken.idTipoUsuario === 3
+            isNullOrEmpty(infoToken.idUsuario) ||
+            checkUserService(token) == false
         ) {
             const exception = new Error("Usuário vazio ou não tem permissão");
-            exception.code = 401;
+            exception.code = 403;
             throw exception;
         }
 
-        const db = await equipamentRepositories.listEquipmentsRepository();
+        if (isNullOrEmpty(idUser) || parseInt(idUser) === 0) {
+            idUser = infoToken.idUsuario;
+        }
 
-        console.log(db);
+        const db = await equipamentRepositories.listEquipmentsRepository(
+            idUser
+        );
 
         if (db.length === 0) {
             const exception = new Error("Users not found.");
@@ -303,14 +310,14 @@ const listTypesEquipamentsServices = async (token) => {
     let infoToken = getInfoToken(token);
 
     try {
-    if (
-        isNullOrEmpty(infoToken.idUsuario) || // verificiacaoUserservice(token) == false ||
-        infoToken.idTipoUsuario === 3
-    ) {
-        const exception = new Error("Usuário vazio ou não tem permissão");
-        exception.code = 401;
-        throw exception;
-    }
+        if (
+            isNullOrEmpty(infoToken.idUsuario) ||
+            checkUserService(token) == false
+        ) {
+            const exception = new Error("Usuário vazio ou não tem permissão");
+            exception.code = 403;
+            throw exception;
+        }
 
         const db = await equipamentRepositories.listTypeEquipmentsRepository();
 
@@ -334,16 +341,16 @@ const listTypesEquipamentsServices = async (token) => {
 const listSectorsServices = async (token) => {
     let infoToken = getInfoToken(token);
 
-    if (
-        isNullOrEmpty(infoToken.idUsuario) || // verificiacaoUserservice(token) == false ||
-        infoToken.idTipoUsuario === 3
-    ) {
-        const exception = new Error("Usuário vazio ou não tem permissão");
-        exception.code = 401;
-        throw exception;
-    }
-
     try {
+        if (
+            isNullOrEmpty(infoToken.idUsuario) ||
+            checkUserService(token) == false
+        ) {
+            const exception = new Error("Usuário vazio ou não tem permissão");
+            exception.code = 403;
+            throw exception;
+        }
+
         const db = await equipamentRepositories.listSectorsRepository();
 
         if (db.length === 0) {
@@ -367,11 +374,12 @@ const listaTiposServicosServices = async (token) => {
     let infoToken = getInfoToken(token);
 
     if (
-        isNullOrEmpty(infoToken.idUsuario) || // verificiacaoUserservice(token) == false ||
+        isNullOrEmpty(infoToken.idUsuario) ||
+        checkUserService(token) == false ||
         infoToken.idTipoUsuario === 3
     ) {
         const exception = new Error("Usuário vazio ou não tem permissão");
-        exception.code = 401;
+        exception.code = 403;
         throw exception;
     }
 
@@ -407,11 +415,10 @@ const getEquipamentService = async (id, token) => {
 
         if (
             isNullOrEmpty(infoToken.idUsuario) ||
-            checkUserService(token) == false ||
-            infoToken.idTipoUsuario === 3
+            checkUserService(token) == false
         ) {
             const exception = new Error("Usuário vazio ou não tem permissão");
-            exception.code = 401;
+            exception.code = 403;
             throw exception;
         }
 
@@ -450,7 +457,7 @@ const getTypeEquipamentService = async (id, token) => {
             infoToken.idTipoUsuario === 3
         ) {
             const exception = new Error("Usuário vazio ou não tem permissão");
-            exception.code = 401;
+            exception.code = 403;
             throw exception;
         }
 

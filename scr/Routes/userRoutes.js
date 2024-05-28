@@ -14,8 +14,8 @@ router.get('/user/:id', isValidToken, userController.getUserController);
 router.get('/verificar', isValidToken, userController.checkUserController);
 router.delete('/delete', isValidToken, userController.deleteUserController);
 router.post('/listUsers', isValidToken, userController.listUserPaginationController);
-router.get('/listaOperadores', isValidToken, userController.listCustomersServicesController);
-router.get('/listaMecanicos', isValidToken, userController.listEmployeesController);
+router.get('/listaCustomer', isValidToken, userController.listCustomersServicesController);
+router.get('/listaEmployees', isValidToken, userController.listEmployeesController);
 router.get('/typeAccessUser', isValidToken, userController.typeAccessUserController);
 // router.get('/conexao', isValidToken, usuarioController.conexaoController);
 

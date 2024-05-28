@@ -1,6 +1,6 @@
 const db = require("../db/dbMySql");
 
-const registerRepository = async (data) => {
+const registerRepository = async (data, idUser) => {
     try {
         let result = await db.query(
             `INSERT INTO dbOs.Equipments(Name_Equipment
@@ -8,14 +8,16 @@ const registerRepository = async (data) => {
                                         ,Active_Equipment
                                         ,ID_Type_Equipment
                                         ,ID_Sector_Equipment
+                                        ,ID_User
                                         ,DH_Inclusion
-                                        ,DH_Change) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                                        ,DH_Change) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 data.nameEquipment,
                 data.noFrota,
                 data.activeEquipment,
                 data.idTypeEquipment,
                 data.idSectorEquipment,
+                idUser,
                 new Date(),
                 null
             ]
@@ -49,7 +51,6 @@ const editRepository = async (data) => {
                 data.idEquipment,
             ]
         );
-        console.log(result);
         return [result[0]["affectedRows"]];
     } catch (error) {
         return error;
@@ -90,8 +91,7 @@ const editTypeEquipamentRepository = async (data) => {
     }
 };
 
-const listEquipmentsRepository = async () => {
-
+const listEquipmentsRepository = async (idUser) => {
     try {
         const result = await db.query(`SELECT ID_Equipment
                                              ,Name_Equipment     
@@ -104,7 +104,8 @@ const listEquipmentsRepository = async () => {
                                              INNER JOIN dbOs.Types_Equipments
                                              ON Types_Equipments.ID_Type_Equipment = Equipments.ID_Type_Equipment
                                              INNER JOIN dbOs.Sectors
-                                             ON Sectors.ID_Sector = Equipments.ID_Sector_Equipment;`);
+                                             ON Sectors.ID_Sector = Equipments.ID_Sector_Equipment
+                                        WHERE ID_User = ${idUser};`);
         return result[0];
     } catch (error) {
         return error;
@@ -119,7 +120,6 @@ const listTypeEquipmentsRepository = async () => {
                                         FROM dbOs.Types_Equipments;`);
         return result[0];
     } catch (error) {
-        console.log(error);
         return error;
     }
 };

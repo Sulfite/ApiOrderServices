@@ -68,6 +68,22 @@ const signToken = (data) => {
 	return token;
 }
 
+const getDays = (year, month) => { 
+	return new Date(year, month, 0).getDate()
+}
+
+const formatDateDB = (date) => {
+    var date;
+    date = date;
+    date =
+        date.getFullYear() +
+        "-" +
+        ("00" + (date.getMonth())).slice(-2) +
+        "-" +
+        ("00" + date.getDate()).slice(-2);
+    return date;
+}
+
 module.exports = {
 	hash,
 	isNullOrEmpty,
@@ -75,5 +91,7 @@ module.exports = {
     isValidJson,
 	isValidToken,
 	signToken,
-	getInfoToken
+	getInfoToken,
+	getDays,
+	formatDateDB
 }

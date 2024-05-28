@@ -60,9 +60,6 @@ const deleteCountryRepository = async (id) => {
 
 // States
 const registerStateRepository = async (data) => {
-
-  console.log('aqui');
-
   try {
     const result = await db.query("INSERT INTO dbOs.States(Name_State, Abbreviation, ID_Country) VALUES (?,?,?)", [data.Name_State, data.Abbreviation, data.ID_Country]);
     return [result[0]["affectedRows"], result[0]["insertId"]];

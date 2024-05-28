@@ -70,10 +70,9 @@ const listTypeServiceRepository = async () => {
                                              ,Name_Type_Service
                                              ,Price
                                        FROM dbOs.Types_Services
-                                      `);                                       
+                                       ORDER BY ID_Type_Service`);
         return result[0];
     } catch (error) {
-        console.log(error);
         return error;
     }
 };

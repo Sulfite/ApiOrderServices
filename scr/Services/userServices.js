@@ -8,7 +8,6 @@ const {
 const usuarioRepositorie = require("../Repositories/userRepositories");
 
 const loginService = async (username, password) => {
-    
     try {
         const passwordCrypto = hash(password);
         const db = await usuarioRepositorie.loginRepository(username);
@@ -18,7 +17,7 @@ const loginService = async (username, password) => {
             exception.code = 401;
             throw exception;
         }
-        
+
         if (db.Ativo === 1) {
             const exception = new Error("Usuário sem autorização.");
             exception.code = 401;
@@ -35,7 +34,8 @@ const loginService = async (username, password) => {
 
             let callback = {
                 authorized: true,
-                nome: db.Name_User,
+                name: db.Name_User,
+                idTypeAccess: db.ID_Type_Access,
                 token: token,
             };
             return callback;
@@ -50,22 +50,24 @@ const loginService = async (username, password) => {
             title: error.name,
             message: error.message,
         };
-        return message;   
+        return message;
     }
 };
 
 const registerService = async (data, token) => {
     try {
         let flag = 0;
-        let mensagem = '';
-        
+        let mensagem = "";
+
         if (!isNullOrEmpty(token)) {
             const infoToken = getInfoToken(token);
             if (
                 isNullOrEmpty(infoToken.idUsuario) ||
                 checkUserService(token) === false
             ) {
-                const exception = new Error("Usuário vazio ou não tem permissão");
+                const exception = new Error(
+                    "Usuário vazio ou não tem permissão"
+                );
                 exception.code = 403;
                 throw exception;
             }
@@ -79,60 +81,64 @@ const registerService = async (data, token) => {
 
         if (isNullOrEmpty(data.nameUser)) {
             flag += 1;
-            mensagem = 'nameUser, ';
+            mensagem = "nameUser, ";
         }
 
         if (isNullOrEmpty(data.username)) {
             flag += 1;
-            mensagem += 'username, ';
+            mensagem += "username, ";
         }
 
-        if (isNullOrEmpty(data.passwordUser)){
+        if (isNullOrEmpty(data.passwordUser)) {
             flag += 1;
-            mensagem += 'passwordUser, ';
+            mensagem += "passwordUser, ";
         }
 
         if (isNullOrEmpty(data.dtBirth)) {
             flag += 1;
-            mensagem += 'dtBirth, ';
+            mensagem += "dtBirth, ";
         }
 
         if (isNullOrEmpty(data.nationalIdentifier)) {
             flag += 1;
-            mensagem += 'nationalIdentifier, ';
+            mensagem += "nationalIdentifier, ";
         }
 
         if (isNullOrEmpty(data.typePerson)) {
             flag += 1;
-            mensagem += 'typePerson, ';
+            mensagem += "typePerson, ";
         }
 
-        if (isNullOrEmpty(data.idTypeAccess)){
+        if (isNullOrEmpty(data.idTypeAccess)) {
             flag += 1;
-            mensagem += 'idTypeAccess, ';
+            mensagem += "idTypeAccess, ";
         }
 
         if (flag > 0 && !isNullOrEmpty(mensagem)) {
-            const exception = new Error('Verificar esses parâmetros: '+mensagem);
+            const exception = new Error(
+                "Verificar esses parâmetros: " + mensagem
+            );
             exception.code = 404;
             throw exception;
         }
 
         const senhaCrypto = hash(data.passwordUser);
         const newUser = {
-            nameUser : data.nameUser,
-            username : data.username,
+            nameUser: data.nameUser,
+            username: data.username,
             passwordUser: senhaCrypto,
-            dtBirth : data.dtBirth,
-            nationalIdentifier : data.nationalIdentifier,
+            dtBirth: data.dtBirth,
+            nationalIdentifier: data.nationalIdentifier,
             typePerson: data.typePerson,
-            idTypeAccess: data.idTypeAccess
+            idTypeAccess: data.idTypeAccess,
         };
 
         const db = await usuarioRepositorie.registerRepository(newUser);
 
         if (db.length === 0) {
-            const exception = new Error("Não foi possivel realizar o cadastro."+db.message);
+            const exception = new Error(
+                "Não foi possivel realizar o cadastro." + db.message
+            );
             exception.code = 500;
             throw exception;
         }
@@ -160,7 +166,6 @@ const editSevice = async (token, data, idUsuario) => {
 
         const infoToken = getInfoToken(token);
 
-        
         if (
             isNullOrEmpty(infoToken.idUsuario) ||
             infoToken.idTipoUsuario !== 1
@@ -169,9 +174,9 @@ const editSevice = async (token, data, idUsuario) => {
             exception.code = 403;
             throw exception;
         }
-        
+
         let exists = await checkUserService(token);
-        
+
         if (exists === false) {
             const exception = new Error(
                 "Não foi encontrado usuário para ser alterados."
@@ -179,7 +184,6 @@ const editSevice = async (token, data, idUsuario) => {
             exception.code = 404;
             throw exception;
         }
-        
 
         if (isNullOrEmpty(data)) {
             const exception = new Error(
@@ -191,14 +195,14 @@ const editSevice = async (token, data, idUsuario) => {
 
         const senhaCrypto = hash(data.passwordUser);
         const uptUser = {
-            nameUser : data.nameUser,
-            username : data.username,
+            nameUser: data.nameUser,
+            username: data.username,
             passwordUser: senhaCrypto,
-            dtBirth : data.dtBirth,
-            nationalIdentifier : data.nationalIdentifier,
+            dtBirth: data.dtBirth,
+            nationalIdentifier: data.nationalIdentifier,
             typePerson: data.typePerson,
             idTypeAccess: data.idTypeAccess,
-            idUsuario: idUsuario
+            idUsuario: idUsuario,
         };
 
         const db = await usuarioRepositorie.editRepository(uptUser);
@@ -209,9 +213,13 @@ const editSevice = async (token, data, idUsuario) => {
             throw exception;
         }
 
-        return {update: db[0] > 0};
+        return { update: db[0] > 0 };
     } catch (error) {
-        const message = { title: error.name, "Message:": error.message, code: error.code };
+        const message = {
+            title: error.name,
+            "Message:": error.message,
+            code: error.code,
+        };
         return message;
     }
 };
@@ -226,15 +234,11 @@ const editActiveSevice = async (token, data) => {
 
     const infoToken = getInfoToken(token);
 
-    if (
-        isNullOrEmpty(infoToken.idUsuario) ||
-        infoToken.idTipoUsuario === 2
-    ) {
+    if (isNullOrEmpty(infoToken.idUsuario) || infoToken.idTipoUsuario === 2) {
         const exception = new Error("Usuário vazio ou não tem permissão");
         exception.code = 401;
         throw exception;
     }
-
 
     try {
         // if (exists === false) {
@@ -277,7 +281,9 @@ const checkUserService = async (token) => {
 
     const infoToken = getInfoToken(token);
 
-    const db = await usuarioRepositorie.checkUserRepository(infoToken.idUsuario);
+    const db = await usuarioRepositorie.checkUserRepository(
+        infoToken.idUsuario
+    );
 
     if (db.length > 0) return true;
     else return false;
@@ -305,7 +311,9 @@ const deleteUserService = async (data, token) => {
             throw exception;
         }
 
-        const db = await usuarioRepositorie.deleteUserRepository(data.idUsuario);
+        const db = await usuarioRepositorie.deleteUserRepository(
+            data.idUsuario
+        );
 
         if (isNullOrEmpty(db)) {
             const exception = new Error("Não foi possível apagar.");
@@ -389,7 +397,12 @@ const listUserPaginationService = async (data, token) => {
     }
 
     try {
-        const db = await usuarioRepositorie.listUserPaginationRepository(offset, limit, active, typeAccess);
+        const db = await usuarioRepositorie.listUserPaginationRepository(
+            offset,
+            limit,
+            active,
+            typeAccess
+        );
 
         if (db.length === 0) {
             const exception = new Error("Users not found.");
@@ -408,11 +421,13 @@ const listUserPaginationService = async (data, token) => {
     }
 };
 
-const listCustomersServices = async (token, site) => {
+const listCustomersServices = async (token) => {
     let infoToken = getInfoToken(token);
 
-    if (isNullOrEmpty(infoToken.idUsuario) || // checkUserService(token) == false ||
-        infoToken.idTipoUsuario === 3) {
+    if (
+        isNullOrEmpty(infoToken.idUsuario) || // checkUserService(token) == false ||
+        infoToken.idTipoUsuario === 3
+    ) {
         const exception = new Error("Usuário vazio ou não tem permissão");
         exception.code = 401;
         throw exception;
@@ -446,14 +461,16 @@ const listCustomersServices = async (token, site) => {
 const listEmployeesServices = async (token) => {
     let infoToken = getInfoToken(token);
 
-    if (isNullOrEmpty(infoToken.idUsuario) || // checkUserService(token) == false ||
-        infoToken.idTipoUsuario === 3) {
-        const exception = new Error("Usuário vazio ou não tem permissão");
-        exception.code = 401;
-        throw exception;
-    }
-
     try {
+        if (
+            isNullOrEmpty(infoToken.idUsuario) || checkUserService(token) === false ||
+            infoToken.idTipoUsuario !== 1
+        ) {
+            const exception = new Error("Usuário vazio ou não tem permissão");
+            exception.code = 401;
+            throw exception;
+        }
+
         const db = await usuarioRepositorie.listEmployeesRepository();
 
         if (db.length === 0) {
@@ -476,8 +493,10 @@ const listEmployeesServices = async (token) => {
 const typeAccessUserServices = async (token) => {
     let infoToken = getInfoToken(token);
 
-    if (isNullOrEmpty(infoToken.idUsuario) || // checkUserService(token) == false ||
-        infoToken.idTipoUsuario !== 1) {
+    if (
+        isNullOrEmpty(infoToken.idUsuario) || // checkUserService(token) == false ||
+        infoToken.idTipoUsuario !== 1
+    ) {
         const exception = new Error("Usuário vazio ou não tem permissão");
         exception.code = 401;
         throw exception;
@@ -502,7 +521,6 @@ const typeAccessUserServices = async (token) => {
         return message;
     }
 };
-
 
 // const conexaoServices = async (token) => {
 //     let infoToken = getInfoToken(token);

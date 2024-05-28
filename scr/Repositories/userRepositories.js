@@ -93,7 +93,6 @@ const editActiveRepository = async (data) => {
         );
         return [result[0]["affectedRows"]];
     } catch (error) {
-        console.log(error);
         return error;
     }
 };
@@ -187,7 +186,7 @@ const listCustomersRepository = async () => {
     try {
         const result = await db.query(`SELECT ID_User
                                              ,Name_User
-                                       FROM dbOs..Users
+                                       FROM dbOs.Users
                                        WHERE ID_Type_Access = 3
                                          AND Active_User = 1;`);
         return result[0];
@@ -214,8 +213,9 @@ const listEmployeesRepository = async () => {
         const result = await db.query(`SELECT ID_User
                                              ,Name_User
                                              ,Active_User
-                                       FROM dbOs..Users
-                                       WHERE ID_Type_Access = 2;`);
+                                       FROM dbOs.Users
+                                       WHERE ID_Type_Access = 2
+                                         AND Active_User = 1;`);
         return result[0];
     } catch (error) {
         return error;

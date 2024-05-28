@@ -252,8 +252,6 @@ const listProductPaginationService = async (data, token) => {
             limit
         );
 
-        console.log(db);
-
         if (db.length === 0) {
             const exception = new Error("Users not found.");
             exception.code = 404;

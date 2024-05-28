@@ -22,7 +22,7 @@ const loginController = async (req, res, next) => {
     res.status(200).send(JSON.stringify(response));
   }
   catch(e) {
-    let message = {"title": e.name, "Message": e.message }
+    let message = {"title": e.name, message: e.message, code: e.code }
     return res.status(e.code).send(JSON.stringify(message));
   }
 }
@@ -161,10 +161,9 @@ const  listUserPaginationController = async (req, res, next) => {
 
 const listCustomersServicesController = async (req, res, next) => {
   const token = req.headers['x-access-token'];
-  const site = req.query.site;
 
   try {
-    const response = await userServices.listCustomersServicesServices(token, site);
+    const response = await userServices.listCustomersServices(token);
     if (response.code > 0 && response.title === 'Error') {
       const exception = new Error(response.message);
       exception.code = response.code;
