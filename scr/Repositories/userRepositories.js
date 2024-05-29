@@ -44,7 +44,7 @@ const registerRepository = async (data) => {
         result = result[0];
         return [result["affectedRows"], result["insertId"]];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
