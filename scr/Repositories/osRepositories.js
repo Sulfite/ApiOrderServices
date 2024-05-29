@@ -31,7 +31,7 @@ const registerRepository = async (data) => {
         result = result[0];
         return [{affectedRows: result["affectedRows"], insertId: result["insertId"]}];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -53,7 +53,7 @@ const registerProductsOsRepository = async (data) => {
         result = result[0];
         return [{affectedRows: result["affectedRows"], insertId: result["insertId"]}];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -172,7 +172,7 @@ const listOsRepository = async (offset, limit, abertaFechada, dataIni, dataFim, 
                                        ${where} ${limitOffset}`);
         return result[0];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -229,7 +229,7 @@ const listEmployeOsRepository = async (offset, limit, abertaFechada, dataIni, da
                                        ${where} ${limitOffset}`);
         return result[0];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 

@@ -13,7 +13,7 @@ const loginRepository = async (user) => {
                                  WHERE Username = '${user}';`);
         return result[0][0];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -78,7 +78,7 @@ const editRepository = async (data) => {
 
         return [result[0]["affectedRows"]];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -93,7 +93,7 @@ const editActiveRepository = async (data) => {
         );
         return [result[0]["affectedRows"]];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -115,7 +115,7 @@ const deleteUserRepository = async (id) => {
                                        WHERE ID_User = ${id}`);
         return [result[0]["affectedRows"]];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -133,7 +133,7 @@ const getUserRepository = async (id) => {
 
         return result[0];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -178,7 +178,7 @@ const listUserPaginationRepository = async (offset, limit, active, typeAccess ) 
 
         return result[0];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -191,7 +191,7 @@ const listCustomersRepository = async () => {
                                          AND Active_User = 1;`);
         return result[0];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -204,7 +204,7 @@ const listCustomersRepository = async () => {
 //                                        WHERE ID_Type_Access = 3;`);
 //         return result[0];
 //     } catch (error) {
-//         return error;
+//         return {error : error};
 //     }
 // };
 
@@ -218,7 +218,7 @@ const listEmployeesRepository = async () => {
                                          AND Active_User = 1;`);
         return result[0];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -229,7 +229,7 @@ const typeAccessUserRepository = async () => {
                                        FROM dbos.Types_Access;`);
         return result[0];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 

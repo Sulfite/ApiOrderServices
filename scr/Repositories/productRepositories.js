@@ -21,7 +21,7 @@ const registerRepository = async (data) => {
         result = result[0];
         return [result["affectedRows"], result["insertId"]];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -46,7 +46,7 @@ const editRepository = async (data) => {
 
         return [result[0]["affectedRows"]];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -56,7 +56,7 @@ const deleteUserRepository = async (id) => {
                                        WHERE ID_User = ${id}`);
         return [result[0]["affectedRows"]];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -70,7 +70,7 @@ const getProductRepository = async (id) => {
                                        WHERE ID_Product = ${id};`);
         return result[0];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -92,7 +92,7 @@ const listProductPaginationRepository = async (name, offset, limit) => {
                                        LIMIT ${offset}, ${limit};`);                                       
         return result[0];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
