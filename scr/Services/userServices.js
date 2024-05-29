@@ -135,7 +135,7 @@ const registerService = async (data, token) => {
 
         const db = await usuarioRepositorie.registerRepository(newUser);
 
-        if (db.length === 0) {
+        if (db.error) {
             const exception = new Error(
                 "Não foi possivel realizar o cadastro." + db.message
             );
