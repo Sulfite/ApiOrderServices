@@ -9,7 +9,7 @@ const listPhonesRepository = async (idUser) => {
                                 WHERE ID_User = ${idUser};`);
     return result[0];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -18,7 +18,7 @@ const registerPhoneRepository = async (data) => {
     const result = await db.query("INSERT INTO dbos.Phones(Number_Phone, ID_City, ID_User) VALUES (?,?,?)", [data.Number_Phone, data.ID_City, data.ID_User]);
     return [result[0]["affectedRows"], result[0]["insertId"]];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -31,7 +31,7 @@ const updatePhoneRepository = async (id, data) => {
 
     return [result[0]["affectedRows"]];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -48,7 +48,7 @@ const detailsPhoneRepository = async (id) => {
                                    WHERE ID_Phone = ${id}`);
     return result[0];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -58,7 +58,7 @@ const deletePhoneRepository = async (id) => {
                                    WHERE ID_Phone = ${id}`);
     return [result[0]["affectedRows"]];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 

@@ -25,7 +25,7 @@ const registerRepository = async (data, idUser) => {
         result = result[0];
         return [result["affectedRows"], result["insertId"]];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -53,7 +53,7 @@ const editRepository = async (data) => {
         );
         return [result[0]["affectedRows"]];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -68,7 +68,7 @@ const registerTypeEquipamentRepository = async (data) => {
         result = result[0];
         return [result["affectedRows"], result["insertId"]];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -87,7 +87,7 @@ const editTypeEquipamentRepository = async (data) => {
 
         return [result[0]["affectedRows"]];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -108,7 +108,7 @@ const listEquipmentsRepository = async (idUser) => {
                                         WHERE ID_User = ${idUser};`);
         return result[0];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -120,7 +120,7 @@ const listTypeEquipmentsRepository = async () => {
                                         FROM dbos.Types_Equipments;`);
         return result[0];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -131,7 +131,7 @@ const listSectorsRepository = async () => {
                                         FROM dbos.Sectors;`);
         return result[0];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -143,7 +143,7 @@ const listaTiposServicosRepository = async () => {
                                        FROM dbos.Types_Services;`);
         return result[0];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -159,7 +159,7 @@ const getEquipamentRepository = async (id) => {
                                        WHERE ID_Equipment = ${id};`);
         return result[0];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 
@@ -171,7 +171,7 @@ const getTypeEquipamentRepository = async (id) => {
                                        WHERE ID_Type_Equipment = ${id};`);
         return result[0];
     } catch (error) {
-        return error;
+        return {error : error};
     }
 };
 

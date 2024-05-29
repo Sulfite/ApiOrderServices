@@ -59,9 +59,9 @@ const registerService = async (data, token) => {
 
         const db = await productRepository.registerRepository(newProduct);
 
-        if (db.length === 0) {
+        if (db.error) {
             const exception = new Error(
-                "Não foi possivel realizar o cadastro." + db.message
+                "Não foi possivel realizar o cadastro." + db.error
             );
             exception.code = 500;
             throw exception;
@@ -125,8 +125,8 @@ const editSevice = async (token, data, idProduct) => {
 
         const db = await productRepository.editRepository(uptProduct);
 
-        if (isNullOrEmpty(db[0])) {
-            const exception = new Error("Não foi possivel realizar a edição.");
+        if (db.error) {
+            const exception = new Error("Não foi possivel realizar a edição."+db.error);
             exception.code = 500;
             throw exception;
         }
@@ -162,8 +162,8 @@ const deleteUserService = async (data, token) => {
 
         const db = await productRepository.deleteUserRepository(data.idUsuario);
 
-        if (isNullOrEmpty(db)) {
-            const exception = new Error("Não foi possível apagar.");
+        if (db.error) {
+            const exception = new Error("Não foi possível apagar.")+db.error;
             exception.code = 500;
             throw exception;
         }
@@ -201,8 +201,8 @@ const getProductService = async (id, token) => {
 
         const db = await productRepository.getProductRepository(id);
 
-        if (db.length === 0) {
-            const exception = new Error("User not found.");
+        if (db.error) {
+            const exception = new Error("Product not found."+db.error);
             exception.code = 404;
             throw exception;
         }
@@ -252,8 +252,8 @@ const listProductPaginationService = async (data, token) => {
             limit
         );
 
-        if (db.length === 0) {
-            const exception = new Error("Users not found.");
+        if (db.error) {
+            const exception = new Error("Produscts not found."+db.error);
             exception.code = 404;
             throw exception;
         }

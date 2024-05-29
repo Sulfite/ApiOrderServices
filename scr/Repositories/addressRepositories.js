@@ -8,7 +8,7 @@ const registerCountryRepository = async (data) => {
     const result = await db.query("INSERT INTO dbos.Countries(Name_Country, Abbreviation, Prefix) VALUES (?,?,?)", [data.Name_Country, data.Abbreviation, data.Prefix]);
     return [result[0]["affectedRows"], result[0]["insertId"]];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -18,7 +18,7 @@ const listCountriesRepository = async () => {
                                 FROM dbos.Countries;`);
     return result[0];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -29,7 +29,7 @@ const detailsCountryRepository = async (id) => {
                                    WHERE ID_Country = ${id}`);
     return result[0][0];
   } catch (error) {
-    return [error];
+    return {error : error};
   }
 }
 
@@ -43,7 +43,7 @@ const updateCountryRepository = async (id, data) => {
 
     return [result[0]["affectedRows"]];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -54,7 +54,7 @@ const deleteCountryRepository = async (id) => {
     
     return [result[0]["affectedRows"]];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -64,7 +64,7 @@ const registerStateRepository = async (data) => {
     const result = await db.query("INSERT INTO dbos.States(Name_State, Abbreviation, ID_Country) VALUES (?,?,?)", [data.Name_State, data.Abbreviation, data.ID_Country]);
     return [result[0]["affectedRows"], result[0]["insertId"]];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -74,7 +74,7 @@ const listStatesRepository = async () => {
                                 FROM dbos.States;`);
     return result[0];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -99,7 +99,7 @@ const updateStateRepository = async (id, data) => {
 
     return [result[0]["affectedRows"]];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -110,7 +110,7 @@ const deleteStateRepository = async (id) => {
     
     return [result[0]["affectedRows"]];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -121,7 +121,7 @@ const registerCityRepository = async (data) => {
     const result = await db.query("INSERT INTO dbos.Cities(Name_City, DDD,  ID_State) VALUES (?,?,?)", [data.Name_City, data.DDD, data.ID_State]);
     return [result[0]["affectedRows"], result[0]["insertId"]];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -131,7 +131,7 @@ const listCitiesRepository = async () => {
                                 FROM dbos.Cities;`);
     return result[0];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -156,7 +156,7 @@ const updateCityRepository = async (id, data) => {
 
     return [result[0]["affectedRows"]];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -167,7 +167,7 @@ const deleteCityRepository = async (id) => {
     
     return [result[0]["affectedRows"]];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -178,7 +178,7 @@ const registerAddressRepository = async (data) => {
     const result = await db.query("INSERT INTO dbos.Adresses(Street, District, Number_Street, CD_Postal, Complement, ID_City, ID_User) VALUES (?,?,?,?,?,?,?)", [data.Street, data.District, data.Number_Street, data.CD_Postal, data.Complement, data.ID_City, data.ID_User]);
     return [result[0]["affectedRows"], result[0]["insertId"]];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -189,7 +189,7 @@ const listAdressesRepository = async (id) => {
                                 WHERE ID_User = ${id};`);
     return result[0];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -217,7 +217,7 @@ const updateAddressRepository = async (id, data) => {
 
     return [result[0]["affectedRows"]];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 
@@ -228,7 +228,7 @@ const deleteAddressRepository = async (id) => {
     
     return [result[0]["affectedRows"]];
   } catch (error) {
-    return error;
+    return {error : error};
   }
 }
 

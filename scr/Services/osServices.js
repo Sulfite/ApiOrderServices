@@ -221,7 +221,7 @@ const closeOsService = async (token, data) => {
         );
 
         if (db.error) {
-            const exception = new Error("Não foi possivel finalizar a OS.");
+            const exception = new Error("Não foi possivel finalizar a OS."+db.error);
             exception.code = 500;
             throw exception;
         }
@@ -289,8 +289,8 @@ const listOsService = async (data, token) => {
             id
         );
 
-        if (db.length === 0) {
-            const exception = new Error("Ordens de Serviços não encontradas.");
+        if (db.error) {
+            const exception = new Error("Ordens de Serviços não encontradas."+db.error);
             exception.code = 404;
             throw exception;
         }
@@ -350,8 +350,8 @@ const listEmployeOsService = async (data, token) => {
             id
         );
 
-        if (db.length === 0) {
-            const exception = new Error("Ordens de Serviços não encontradas.");
+        if (db.error) {
+            const exception = new Error("Ordens de Serviços não encontradas."+db.error);
             exception.code = 404;
             throw exception;
         }
@@ -394,7 +394,7 @@ const osDetailsService = async (idOs, token) => {
 
         if (db.error) {
             const exception = new Error(
-                "Não foi possivel localizar os detalhes da OS."
+                "Não foi possivel localizar os detalhes da OS."+db.error
             );
             exception.code = 500;
             throw exception;
@@ -443,7 +443,7 @@ const osMonthClosedService = async (token) => {
 
             if (db.error) {
                 const exception = new Error(
-                    "Não foi possivel localizar os detalhes da OS."
+                    "Não foi possivel localizar os detalhes da OS."+db.error
                 );
                 exception.code = 500;
                 throw exception;
@@ -503,7 +503,7 @@ const osMonthTypesServicesService = async (token) => {
 
         if (db.error) {
             const exception = new Error(
-                "Não foi possivel localizar os detalhes da OS."
+                "Não foi possivel localizar os detalhes da OS."+db.error
             );
             exception.code = 500;
             throw exception;
