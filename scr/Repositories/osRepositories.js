@@ -5,7 +5,7 @@ const registerRepository = async (data) => {
     try {
         console.log(data);
         let result = await db.query(
-            `INSERT INTO dbOs.Services_Orders(DH_Opening
+            `INSERT INTO dbos.Services_Orders(DH_Opening
                                              ,DH_Closed
                                              ,Detailing
                                              ,Observation
@@ -39,7 +39,7 @@ const registerProductsOsRepository = async (data) => {
     try {
         console.log(data);
         let result = await db.query(
-            `INSERT INTO dbOs.Products_OS(ID_Product
+            `INSERT INTO dbos.Products_OS(ID_Product
                                          ,ID_OS
                                          ,Amount
                                          ,Price) VALUES (?, ?, ?, ?)`,

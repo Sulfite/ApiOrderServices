@@ -3,7 +3,7 @@ const db = require("../db/dbMySql");
 const registerRepository = async (data, idUser) => {
     try {
         let result = await db.query(
-            `INSERT INTO dbOs.Equipments(Name_Equipment
+            `INSERT INTO dbos.Equipments(Name_Equipment
                                         ,NO_Frota
                                         ,Active_Equipment
                                         ,ID_Type_Equipment
@@ -33,7 +33,7 @@ const editRepository = async (data) => {
 
     try {
         const result = await db.query(
-            `UPDATE dbOs.Equipments
+            `UPDATE dbos.Equipments
                SET Name_Equipment      = ?
                   ,NO_Frota            = ?
                   ,Active_Equipment    = ?
@@ -62,7 +62,7 @@ const registerTypeEquipamentRepository = async (data) => {
     try {
       
         let result = await db.query(
-            `INSERT INTO dbOs.Types_Equipments(Name_Type_Equipment) VALUES (?)`,
+            `INSERT INTO dbos.Types_Equipments(Name_Type_Equipment) VALUES (?)`,
             [data.nameTypeEquipment]
         );
         result = result[0];
@@ -76,7 +76,7 @@ const editTypeEquipamentRepository = async (data) => {
 
     try {
         const result = await db.query(
-            `UPDATE dbOs.Types_Equipments
+            `UPDATE dbos.Types_Equipments
                SET Name_Type_Equipment = ?
              WHERE ID_Type_Equipment = ?;`,
             [
@@ -100,10 +100,10 @@ const listEquipmentsRepository = async (idUser) => {
                                              ,Equipments.ID_Type_Equipment  
                                              ,Types_Equipments.Name_Type_Equipment
                                              ,Sectors.Name_Sector
-                                        FROM dbOs.Equipments
-                                             INNER JOIN dbOs.Types_Equipments
+                                        FROM dbos.Equipments
+                                             INNER JOIN dbos.Types_Equipments
                                              ON Types_Equipments.ID_Type_Equipment = Equipments.ID_Type_Equipment
-                                             INNER JOIN dbOs.Sectors
+                                             INNER JOIN dbos.Sectors
                                              ON Sectors.ID_Sector = Equipments.ID_Sector_Equipment
                                         WHERE ID_User = ${idUser};`);
         return result[0];
@@ -117,7 +117,7 @@ const listTypeEquipmentsRepository = async () => {
     try {
         const result = await db.query(`SELECT ID_Type_Equipment  
                                              ,Name_Type_Equipment
-                                        FROM dbOs.Types_Equipments;`);
+                                        FROM dbos.Types_Equipments;`);
         return result[0];
     } catch (error) {
         return error;
@@ -128,7 +128,7 @@ const listSectorsRepository = async () => {
 
     try {
         const result = await db.query(`SELECT *
-                                        FROM dbOs.Sectors;`);
+                                        FROM dbos.Sectors;`);
         return result[0];
     } catch (error) {
         return error;
@@ -140,7 +140,7 @@ const listaTiposServicosRepository = async () => {
     try {
         const result = await db.query(`SELECT ID_Type_Service
                                              ,Nome_Tipo_Servico
-                                       FROM dbOs.Types_Services;`);
+                                       FROM dbos.Types_Services;`);
         return result[0];
     } catch (error) {
         return error;
@@ -155,7 +155,7 @@ const getEquipamentRepository = async (id) => {
                                              ,Active_Equipment   
                                              ,ID_Type_Equipment  
                                              ,ID_Sector_Equipment
-                                       FROM dbOs.Equipments
+                                       FROM dbos.Equipments
                                        WHERE ID_Equipment = ${id};`);
         return result[0];
     } catch (error) {
@@ -167,7 +167,7 @@ const getTypeEquipamentRepository = async (id) => {
     try {
         const result = await db.query(`SELECT ID_Type_Equipment  
                                              ,Name_Type_Equipment
-                                       FROM dbOs.Types_Equipments
+                                       FROM dbos.Types_Equipments
                                        WHERE ID_Type_Equipment = ${id};`);
         return result[0];
     } catch (error) {

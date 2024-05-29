@@ -9,7 +9,7 @@ const loginRepository = async (user) => {
                                            ,Active_User
                                            ,Name_User
                                            ,Username
-                                 FROM dbOs.Users 
+                                 FROM dbos.Users 
                                  WHERE Username = '${user}';`);
         return result[0][0];
     } catch (error) {
@@ -20,7 +20,7 @@ const loginRepository = async (user) => {
 const registerRepository = async (data) => {
     try {
         let result = await db.query(
-            `INSERT INTO dbOs.Users(Name_User
+            `INSERT INTO dbos.Users(Name_User
                                     ,Username
                                     ,PasswordUser
                                     ,DT_Birth
@@ -100,7 +100,7 @@ const editActiveRepository = async (data) => {
 const checkUserRepository = async (id) => {
     try {
         const result = await db.query(`SELECT ID_Type_Access
-                                       FROM dbOs.Users
+                                       FROM dbos.Users
                                        WHERE ID_User = ${id}
                                          AND Active_User = 1`);
         return result[0];
@@ -111,7 +111,7 @@ const checkUserRepository = async (id) => {
 
 const deleteUserRepository = async (id) => {
     try {
-        const result = await db.query(`DELETE FROM dbOs..Users
+        const result = await db.query(`DELETE FROM dbos..Users
                                        WHERE ID_User = ${id}`);
         return [result[0]["affectedRows"]];
     } catch (error) {
@@ -128,7 +128,7 @@ const getUserRepository = async (id) => {
                                              ,Type_Person
                                              ,ID_Type_Access
                                              ,Active_User
-                                       FROM dbOs.Users
+                                       FROM dbos.Users
                                        WHERE ID_User = ${id};`);
 
         return result[0];
@@ -170,7 +170,7 @@ const listUserPaginationRepository = async (offset, limit, active, typeAccess ) 
                                              ,Type_Person
                                              ,Types_Access.Name_Type_Access
                                              ,Active_User
-                                       FROM dbOs.Users
+                                       FROM dbos.Users
                                             INNER JOIN Types_Access
                                             ON Types_Access.ID_Type_Access = Users.ID_Type_Access
                                        ${isNullOrEmpty(where.trim()) ? '' : `WHERE ${where}`}
@@ -186,7 +186,7 @@ const listCustomersRepository = async () => {
     try {
         const result = await db.query(`SELECT ID_User
                                              ,Name_User
-                                       FROM dbOs.Users
+                                       FROM dbos.Users
                                        WHERE ID_Type_Access = 3
                                          AND Active_User = 1;`);
         return result[0];
@@ -200,7 +200,7 @@ const listCustomersRepository = async () => {
 //         const result = await db.query(`SELECT ID_User
 //                                              ,Name_User
 //                                              ,Active_User
-//                                        FROM dbOs..Users
+//                                        FROM dbos..Users
 //                                        WHERE ID_Type_Access = 3;`);
 //         return result[0];
 //     } catch (error) {
@@ -213,7 +213,7 @@ const listEmployeesRepository = async () => {
         const result = await db.query(`SELECT ID_User
                                              ,Name_User
                                              ,Active_User
-                                       FROM dbOs.Users
+                                       FROM dbos.Users
                                        WHERE ID_Type_Access = 2
                                          AND Active_User = 1;`);
         return result[0];
@@ -226,7 +226,7 @@ const typeAccessUserRepository = async () => {
     try {
         const result = await db.query(`SELECT ID_Type_Access
                                              ,Name_Type_Access
-                                       FROM dbOs.Types_Access;`);
+                                       FROM dbos.Types_Access;`);
         return result[0];
     } catch (error) {
         return error;

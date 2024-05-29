@@ -5,7 +5,7 @@ const registerRepository = async (data) => {
     try {
       
         let result = await db.query(
-            `INSERT INTO dbOs.Products(Name_Product
+            `INSERT INTO dbos.Products(Name_Product
                                       ,Amount
                                       ,Priece       
                                       ,DH_Inclusion 
@@ -29,7 +29,7 @@ const editRepository = async (data) => {
 
     try {
         const result = await db.query(
-            `UPDATE dbOs.Products
+            `UPDATE dbos.Products
                SET Name_Product = ?
                   ,Amount       = ?
                   ,Priece       = ?
@@ -52,7 +52,7 @@ const editRepository = async (data) => {
 
 const deleteUserRepository = async (id) => {
     try {
-        const result = await db.query(`DELETE FROM dbOs..Users
+        const result = await db.query(`DELETE FROM dbos..Users
                                        WHERE ID_User = ${id}`);
         return [result[0]["affectedRows"]];
     } catch (error) {
@@ -66,7 +66,7 @@ const getProductRepository = async (id) => {
                                              ,Name_Product
                                              ,Amount
                                              ,Priece
-                                       FROM dbOs.Products
+                                       FROM dbos.Products
                                        WHERE ID_Product = ${id};`);
         return result[0];
     } catch (error) {
@@ -87,7 +87,7 @@ const listProductPaginationRepository = async (name, offset, limit) => {
                                              ,Name_Product
                                              ,Amount
                                              ,Priece
-                                       FROM dbOs.Products
+                                       FROM dbos.Products
                                        ${where}
                                        LIMIT ${offset}, ${limit};`);                                       
         return result[0];
