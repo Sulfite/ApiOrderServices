@@ -219,8 +219,8 @@ const listEmployeOsRepository = async (offset, limit, abertaFechada, dataIni, da
                                              ,Types_Services.Name_Type_Service
                                              ,Types_Services.Price
                                              ,(SELECT SUM(Amount * Price) 
-                                               FROM Products_Os 
-                                               WHERE Products_Os.ID_OS = OS.ID_OS) AS valueProductTotal
+                                               FROM Products_OS 
+                                               WHERE Products_OS.ID_OS = OS.ID_OS) AS valueProductTotal
                                        FROM Services_Orders as OS
                                             INNER JOIN Equipments
                                             ON Equipments.ID_Equipment = OS.ID_Equipment
