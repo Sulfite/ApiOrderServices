@@ -6,7 +6,7 @@ const registerRepository = async (data) => {
       
         let result = await db.query(
 
-            `INSERT INTO dbOs.Types_Services(Name_Type_Service
+            `INSERT INTO dbos.Types_Services(Name_Type_Service
                                             ,Price) VALUES (?, ?)`,
             [
                 data.nameTypeService,
@@ -24,7 +24,7 @@ const editRepository = async (data) => {
 
     try {
         const result = await db.query(
-            `UPDATE dbOs.Types_Services
+            `UPDATE dbos.Types_Services
                SET Name_Type_Service = ?
                   ,Price             = ?
              WHERE ID_Type_Service = ?;`,
@@ -43,7 +43,7 @@ const editRepository = async (data) => {
 
 const deleteUserRepository = async (id) => {
     try {
-        const result = await db.query(`DELETE FROM dbOs.Types_Services
+        const result = await db.query(`DELETE FROM dbos.Types_Services
                                        WHERE ID_User = ${id}`);
         return [result[0]["affectedRows"]];
     } catch (error) {
@@ -56,7 +56,7 @@ const getTypeServiceRepository = async (id) => {
         const result = await db.query(`SELECT ID_Type_Service
                                              ,Name_Type_Service
                                              ,Price
-                                       FROM dbOs.Types_Services
+                                       FROM dbos.Types_Services
                                        WHERE ID_Type_Service = ${id};`);
         return result[0];
     } catch (error) {
@@ -69,7 +69,7 @@ const listTypeServiceRepository = async () => {
         const result = await db.query(`SELECT ID_Type_Service
                                              ,Name_Type_Service
                                              ,Price
-                                       FROM dbOs.Types_Services
+                                       FROM dbos.Types_Services
                                        ORDER BY ID_Type_Service`);
         return result[0];
     } catch (error) {
