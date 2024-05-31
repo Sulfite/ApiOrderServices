@@ -1,11 +1,9 @@
 require('dotenv').config({path: __dirname + '/.env'})
 const express = require("express");
 const bodyParser = require("body-parser");
-const { isNullOrEmpty } = require('./Ultils/Ultils');
 
 const app = express();
 const cors = require("cors");
-const port = isNullOrEmpty(process.env.PORT_API) ? 3001 : process.env.PORT_API;
 
 // Usos necessarios
 app.use(cors("*"));
@@ -29,9 +27,5 @@ app.use("/typeservice", typeServiceRoutes);
 app.use("/product", productRoutes);
 app.use("/address", addressRoutes);
 app.use("/phone", phoneRoutes);
-
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-})
 
 module.exports = app;
