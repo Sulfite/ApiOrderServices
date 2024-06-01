@@ -34,11 +34,11 @@ const registerService = async (data, token) => {
             data.idUserEmploye = infoToken.idTipoUsuario;
         }
 
-        // let horimetro = data.horimetro;
-        // if (parseFloat(horimetro) === NaN) {
-        //     horimetro = 0.0;
-        // }
-        // horimetro = horimetro.replace(",", ".");
+        let numberCondition = data.numberCondition;
+        if (parseFloat(numberCondition) === NaN) {
+            numberCondition = 0.0;
+        }
+        numberCondition = numberCondition.replace(",", ".");
 
         const newData = {
             dhOpening: data.dhOpening,
@@ -46,7 +46,7 @@ const registerService = async (data, token) => {
             detailing: data.detailing,
             observation: data.observation,
             solution: data.solution,
-            numberCondition: data.numberCondition,
+            numberCondition: numberCondition,
             idEquipment: data.idEquipment,
             idUserCustomer: data.idUserCustomer,
             idUserEmploye: data.idUserEmploye,
@@ -58,9 +58,11 @@ const registerService = async (data, token) => {
             infoToken.idUsuario
         );
 
-        if (db[0].affectedRows === 0) {
+        console.log(db);
+
+        if (db.error) {
             const exception = new Error(
-                "Não foi possivel realizar o cadastro." + db.message
+                "Não foi possivel realizar o cadastro." + db.error
             );
             exception.code = 500;
             throw exception;
