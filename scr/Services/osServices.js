@@ -190,7 +190,7 @@ const closeOsService = async (token, data) => {
             infoToken.idTipoUsuario === 3
         ) {
             const exception = new Error("Usuário vazio ou não tem permissão");
-            exception.code = 401;
+            exception.code = 403;
             throw exception;
         }
 
@@ -206,6 +206,8 @@ const closeOsService = async (token, data) => {
             data,
             infoToken.idUsuario
         );
+
+        console.log(db);
 
         if (db.error) {
             const exception = new Error("Não foi possivel finalizar a OS."+db.error);

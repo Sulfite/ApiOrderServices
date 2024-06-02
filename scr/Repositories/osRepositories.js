@@ -107,7 +107,8 @@ const closeOsRepository = async (data, id) => {
                 ,id
             ]
         );
-        
+        console.log(result);
+        console.log([result[0]["affectedRows"]]);
         return [result[0]["affectedRows"]];
     } catch (error) {
         return {error: error};
