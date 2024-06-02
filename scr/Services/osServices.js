@@ -58,8 +58,6 @@ const registerService = async (data, token) => {
             infoToken.idUsuario
         );
 
-        console.log(db);
-
         if (db.error) {
             const exception = new Error(
                 "Não foi possivel realizar o cadastro." + db.error
@@ -67,7 +65,7 @@ const registerService = async (data, token) => {
             exception.code = 500;
             throw exception;
         }
-
+        
         let idOs = db[0].insertId;
         let products = data.products;
 
@@ -76,10 +74,10 @@ const registerService = async (data, token) => {
                 const element = products[i];
 
                 let newProd = {
-                    idProduct: element.idProduct,
+                    idProduct: element.ID_Product,
                     idOs: idOs,
-                    amount: element.amount,
-                    price: element.price,
+                    amount: element.Amount,
+                    price: element.Price,
                 };
 
                 let dbProductAdd =
@@ -133,24 +131,11 @@ const editSevice = async (token, data) => {
             throw exception;
         }
 
-        // let horimetro = data.horimetro;
-        // if (parseFloat(horimetro) === NaN) {
-        //     horimetro = 0.0;
-        // }
-        // horimetro = horimetro.replace(",", ".");
-
-        // const newData = {
-        //     dhFechamento: data.dhFechamento,
-        //     descricao: data.descricao,
-        //     pecasUsadas: data.pecasUsadas,
-        //     observacao: data.observacao,
-        //     solucao: data.solucao,
-        //     horimetro: horimetro,
-        //     idEquipamento: data.idEquipamento,
-        //     idUsuarioOperador: data.idUsuarioOperador,
-        //     idTipoServico: data.idTipoServico,
-        //     idOs: data.idOs,
-        // };
+        let numberCondition = data.numberCondition;
+        if (parseFloat(numberCondition) === NaN) {
+            numberCondition = 0.0;
+        }
+        numberCondition = numberCondition.replace(",", ".");
 
         const uptOs = {
             dhOpening: data.dhOpening,
@@ -158,7 +143,7 @@ const editSevice = async (token, data) => {
             detailing: data.detailing,
             observation: data.observation,
             solution: data.solution,
-            numberCondition: data.numberCondition,
+            numberCondition: numberCondition,
             idEquipment: data.idEquipment,
             idUserCustomer: data.idUserCustomer,
             idUserEmploye: data.idUserEmploye,
@@ -228,7 +213,7 @@ const closeOsService = async (token, data) => {
             throw exception;
         }
 
-        if (isNullOrEmpty(db)) {
+        if (db.length == 0) {
             const exception = new Error("Não foi possivel realizar a edição.");
             exception.code = 500;
             throw exception;
