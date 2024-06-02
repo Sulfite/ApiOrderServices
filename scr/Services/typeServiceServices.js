@@ -225,8 +225,7 @@ const listTypeServiceService = async (token) => {
     try {
         if (
             isNullOrEmpty(infoToken.idUsuario) ||
-            checkUserService(token) == false ||
-            infoToken.idTipoUsuario === 3
+            checkUserService(token) == false
         ) {
             const exception = new Error("Usuário vazio ou não tem permissão");
             exception.code = 401;
