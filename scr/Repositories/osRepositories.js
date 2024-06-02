@@ -3,7 +3,6 @@ const db = require("../db/dbMySql");
 
 const registerRepository = async (data) => {
     try {
-        console.log(data);
         let result = await db.query(
             `INSERT INTO dbos.Services_Orders(DH_Opening
                                              ,DH_Closed
@@ -29,7 +28,6 @@ const registerRepository = async (data) => {
             ]
         );
         result = result[0];
-        console.log(result);
         return [{affectedRows: result["affectedRows"], insertId: result["insertId"]}];
     } catch (error) {
         return {error : error};
