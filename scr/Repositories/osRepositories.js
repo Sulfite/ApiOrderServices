@@ -96,15 +96,17 @@ const editRepository = async (data, id) => {
 
 const closeOsRepository = async (data, id) => {
     try {
+
+        console.log(data);
+        console.log(id);
+
         const result = await db.query(
             `UPDATE Services_Orders 
                SET DH_Closed = ?
-             WHERE ID_OS = ?
-               AND ID_User_Employe = ?;`,
+             WHERE ID_OS = ?;`,
             [
                 data.dhClosed
                 ,data.idOs
-                ,id
             ]
         );
         console.log(result);
