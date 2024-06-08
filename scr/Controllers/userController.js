@@ -3,6 +3,12 @@
 const userServices = require('../Services/userServices');
 const { isNullOrEmpty } = require('../Ultils/Ultils');
 
+
+
+const testeController = async (req, res, next) => {
+  res.status(200).send(JSON.stringify({"teste" : "sucesso"}));
+}
+
 const loginController = async (req, res, next) => {
   const data = req.body;
 
@@ -255,5 +261,6 @@ module.exports = {
   // conexaoController,
   listEmployeesController,
   getUserController,
-  typeAccessUserController
+  typeAccessUserController,
+  testeController
 };

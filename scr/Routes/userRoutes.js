@@ -5,6 +5,7 @@ const { isValidToken } = require("../Ultils/Ultils");
 const userController = require("../Controllers/userController");
 
 // Usuarios
+router.post('/',  userController.testeController);
 router.post('/login',  userController.loginController);
 router.post('/register', isValidToken, userController.registerController);
 router.post('/registerCustomer', userController.registerController);
