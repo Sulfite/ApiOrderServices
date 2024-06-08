@@ -9,6 +9,8 @@ const cors = require("cors");
 app.use(cors("*"));
 app.use(bodyParser.json());
 
+const port = process.env.PORT_API;
+
 // Importação das Rotas
 const userRoutes = require("./Routes/userRoutes");
 const osRoutes = require("./Routes/osRoutes");
@@ -28,4 +30,6 @@ app.use("/product", productRoutes);
 app.use("/address", addressRoutes);
 app.use("/phone", phoneRoutes);
 
-module.exports = app;
+app.listen(port, () => {
+	console.log(`Example app listening at http://localhost:${port}`);
+})

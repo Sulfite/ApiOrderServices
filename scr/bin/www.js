@@ -14,7 +14,7 @@ const sslOptions = {
 var port = normalizePort(process.env.PORT_API || '3001');
 app.set('port', port);
 
-var server = https.createServer(sslOptions, app);
+var server = https.createServer(app);
 
 server.listen(port);
 server.on('error', onError);
