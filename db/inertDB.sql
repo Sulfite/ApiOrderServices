@@ -2,6 +2,7 @@ use dbos;
 
 INSERT INTO Types_Access(Name_Type_Access) 
 VALUES ('Adm')
+      ,('Empresa')
       ,('Funcionario')
       ,('Cliente');  
       
@@ -38,18 +39,30 @@ INSERT INTO dbos.States(Name_State, Abbreviation, ID_Country)
 
 INSERT INTO dbos.Cities(Name_City, DDD, ID_State)
                        VALUES('São Paulo', '11', 25)
-			   		         ,('Tupã', '14', 25)
+                             ,('Tupã', '14', 25)
                              ,('Rio de Janeiro', '21', 19)
                              ,('Santa Catarina', '47', 24);
 
 INSERT INTO Users(Name_User, Username, PasswordUser, DT_Birth, National_Identifier, Type_Person, ID_Type_Access, Active_User, DH_Inclusion, DH_Change)
-VALUES ('Administrador', 'adm', '079200673e6c8824cbed13ff04671ee323740325', '2000-01-01', '12345678908', 'F', 1, TRUE, NOW(), NULL)
-      ,('Funcionario', 'func', '079200673e6c8824cbed13ff04671ee323740325', '2000-01-01', '12345678907', 'F', 2, TRUE, NOW(), NULL)
-      ,('Consumidor Teste', 'consumidor', '079200673e6c8824cbed13ff04671ee323740325', '2000-01-01', '12345678909', 'F', 3, TRUE, NOW(), NULL);
-	
-INSERT INTO Sectors(Name_Sector)
-VALUES ('Agricula')
-      ,('Urbano');
+VALUES ('Administrador', 'adm', '079200673e6c8824cbed13ff04671ee323740325', '2000-01-01', NULL, NULL, 1, TRUE, NOW(), NULL)
+      ,('Empresa', 'empresa', '079200673e6c8824cbed13ff04671ee323740325', '2000-01-01', '55180082000195', 'J', 2, TRUE, NOW(), NULL)
+      ,('Funcionario', 'func', '079200673e6c8824cbed13ff04671ee323740325', '2000-01-01', '12345678907', 'F', 3, TRUE, NOW(), NULL)
+      ,('Consumidor Teste', 'consumidor', '079200673e6c8824cbed13ff04671ee323740325', '2000-01-01', '12345678909', 'F', 4, TRUE, NOW(), NULL);
+
+INSERT INTO Adresses(Street, District, Number_Street, CD_Postal, Complement, ID_City, ID_User)
+VALUES ('Rua Brasil', 'Centro', '1010', 17602180, 'Barracão', 2, 2)
+      ,('Rua João Capioto', 'Coab', '1110', 17602180, 'Casa', 2, 3)
+      ,('Rua Irene de camargo', 'Parque Ipiranga', '101', 17602180, 'Casa', 2, 4);
+
+INSERT INTO Phones (Number_Phone, ID_City, ID_User)
+VALUES ('14997305051', 2, 2)
+      ,('14997305052', 3, 3)
+      ,('14997305053', 1, 4);
+
+INSERT INTO Types_Services(Name_Type_Service, price)
+VALUE ('HIDRÁULICA', 150.00)
+     ,('ELÉTRICA', 100.00)
+     ,('MECÂNICA', 120.00);
 
 INSERT INTO Types_Equipments(Name_Type_Equipment)
 VALUES ('Moto')
@@ -59,10 +72,14 @@ VALUES ('Moto')
       ,('Colhedora')
       ,('Implemento');
 
-INSERT INTO Types_Services(Name_Type_Service, price)
-VALUE ('HIDRÁULICA', 150.00)
-     ,('ELÉTRICA', 100.00)
-     ,('MECÂNICA', 120.00);
+INSERT INTO Brands(Name_Brand)
+VALUES ('BMW')
+      ,('John Deere')
+      ,('Chevrolet')
+      ,('Honda')
+      ,('Toyota')
+      ,('Jaguar');
+
 /*
 INSERT INTO Equipments(Nome_Equipamento, NO_Frota, Active_User, ID_Tipo_Equipamento, ID_Setor_Equipamento, DH_Inclusion, DH_Change)
 VALUES ('ONIBUS - VOLARE',                                 1019, TRUE, 1, 1, NOW(), NULL)
